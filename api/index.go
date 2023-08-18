@@ -12,7 +12,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 	server.Use(Recovery(func(err interface{}, c *Context) {
 		if httpError, ok := err.(HttpError); ok {
 			c.JSON(httpError.Status, H{
-				"message": r.RemoteAddr,
+				"message": httpError.Error(),
 			})
 		} else {
 			message := fmt.Sprintf("%s", err)
@@ -22,8 +22,9 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		}
 	}))
 	server.GET("/", func(context *Context) {
+		fmt.Printf(r.RemoteAddr)
 		context.JSON(200, H{
-			"message": "OK",
+			"message": r.RemoteAddr,
 		})
 	})
 	server.GET("/hello", func(context *Context) {
