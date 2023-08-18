@@ -31,7 +31,7 @@ func Handler(w http.ResponseWriter, r *http.Request) {
 		name := context.Query("name")
 		if name == "" {
 			context.JSON(400, H{
-				"message": "name not found",
+				"message": r.RemoteAddr,
 			})
 		} else {
 			context.JSON(200, H{
